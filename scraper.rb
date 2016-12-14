@@ -20,16 +20,17 @@ module Wikisnakker
         warn "Unknown property for #{id}: #{p} = #{send(p).value}"
       end
 
-      base_data.merge(wanted_data)
+      base_data.merge(wanted_data).merge(names)
     end
 
     private
 
     def base_data
-      {
-        id:    id,
-        label: label(:en),
-      }
+      { id: id }
+    end
+
+    def names
+      labels.map { |k, v| ["name__#{k}", v[:value]] }.to_h
     end
 
     def unknown_properties
